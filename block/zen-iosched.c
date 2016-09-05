@@ -16,16 +16,26 @@
 
 enum zen_data_dir { ASYNC, SYNC };
 
+<<<<<<< HEAD
 static const int sync_expire  = HZ / 4;    /* max time before a sync is submitted. */
 static const int async_expire = 2 * HZ;    /* ditto for async, these limits are SOFT! */
 static const int fifo_batch = 1;
+=======
+static const int sync_expire  = HZ / 2;    /* max time before a sync is submitted. */
+static const int async_expire = 5 * HZ;    /* ditto for async, these limits are SOFT! */
+static const int fifo_batch = 16;
+>>>>>>> 46abace69ced (block: Add ZEN v2 scheduler)
 
 struct zen_data {
 	/* Runtime Data */
 	/* Requests are only present on fifo_list */
 	struct list_head fifo_list[2];
 
+<<<<<<< HEAD
         unsigned int batching;          /* number of sequential requests made */
+=======
+	unsigned int batching;		/* number of sequential requests made */
+>>>>>>> 46abace69ced (block: Add ZEN v2 scheduler)
 
 	/* tunables */
 	int fifo_expire[2];
@@ -48,9 +58,15 @@ zen_merged_requests(struct request_queue *q, struct request *req,
 	 * and move into next position (next will be deleted) in fifo
 	 */
 	if (!list_empty(&req->queuelist) && !list_empty(&next->queuelist)) {
+<<<<<<< HEAD
 		if (time_before(rq_fifo_time(next), rq_fifo_time(req))) {
 			list_move(&req->queuelist, &next->queuelist);
 			rq_set_fifo_time(req, rq_fifo_time(next));
+=======
+		if (time_before(next->fifo_time, req->fifo_time)) {
+			list_move(&req->queuelist, &next->queuelist);
+			req->fifo_time = next->fifo_time;
+>>>>>>> 46abace69ced (block: Add ZEN v2 scheduler)
 		}
 	}
 
@@ -64,7 +80,11 @@ static void zen_add_request(struct request_queue *q, struct request *rq)
 	const int sync = rq_is_sync(rq);
 
 	if (zdata->fifo_expire[sync]) {
+<<<<<<< HEAD
 		rq_set_fifo_time(rq, jiffies + zdata->fifo_expire[sync]);
+=======
+		rq->fifo_time = jiffies + zdata->fifo_expire[sync];
+>>>>>>> 46abace69ced (block: Add ZEN v2 scheduler)
 		list_add_tail(&rq->queuelist, &zdata->fifo_list[sync]);
 	}
 }
@@ -91,7 +111,11 @@ zen_expired_request(struct zen_data *zdata, int ddir)
                 return NULL;
 
         rq = rq_entry_fifo(zdata->fifo_list[ddir].next);
+<<<<<<< HEAD
         if (time_after(jiffies, rq_fifo_time(rq)))
+=======
+        if (time_after(jiffies, rq->fifo_time))
+>>>>>>> 46abace69ced (block: Add ZEN v2 scheduler)
                 return rq;
 
         return NULL;
@@ -108,7 +132,11 @@ zen_check_fifo(struct zen_data *zdata)
         struct request *rq_async = zen_expired_request(zdata, ASYNC);
 
         if (rq_async && rq_sync) {
+<<<<<<< HEAD
         	if (time_after(rq_fifo_time(rq_async), rq_fifo_time(rq_sync)))
+=======
+        	if (time_after(rq_async->fifo_time, rq_sync->fifo_time))
+>>>>>>> 46abace69ced (block: Add ZEN v2 scheduler)
                 	return rq_sync;
         } else if (rq_sync) {
                 return rq_sync;
@@ -156,6 +184,7 @@ static int zen_dispatch_requests(struct request_queue *q, int force)
 	return 1;
 }
 
+<<<<<<< HEAD
 static void *zen_init_queue(struct request_queue *q)
 {
 	struct zen_data *zdata;
@@ -163,12 +192,38 @@ static void *zen_init_queue(struct request_queue *q)
 	zdata = kmalloc_node(sizeof(*zdata), GFP_KERNEL, q->node);
 	if (!zdata)
 		return NULL;
+=======
+static int zen_init_queue(struct request_queue *q, struct elevator_type *e)
+{
+	struct zen_data *zdata;
+	struct elevator_queue *eq;
+
+	eq = elevator_alloc(q, e);
+	if (!eq)
+		return -ENOMEM;
+
+	zdata = kmalloc_node(sizeof(*zdata), GFP_KERNEL, q->node);
+	if (!zdata) {
+		kobject_put(&eq->kobj);
+		return -ENOMEM;
+	}
+	eq->elevator_data = zdata;
+
+>>>>>>> 46abace69ced (block: Add ZEN v2 scheduler)
 	INIT_LIST_HEAD(&zdata->fifo_list[SYNC]);
 	INIT_LIST_HEAD(&zdata->fifo_list[ASYNC]);
 	zdata->fifo_expire[SYNC] = sync_expire;
 	zdata->fifo_expire[ASYNC] = async_expire;
 	zdata->fifo_batch = fifo_batch;
+<<<<<<< HEAD
 	return zdata;
+=======
+
+	spin_lock_irq(q->queue_lock);
+	q->elevator = eq;
+	spin_unlock_irq(q->queue_lock);
+	return 0;
+>>>>>>> 46abace69ced (block: Add ZEN v2 scheduler)
 }
 
 static void zen_exit_queue(struct elevator_queue *e)
@@ -257,9 +312,13 @@ static struct elevator_type iosched_zen = {
 
 static int __init zen_init(void)
 {
+<<<<<<< HEAD
 	elv_register(&iosched_zen);
 
 	return 0;
+=======
+	return elv_register(&iosched_zen);
+>>>>>>> 46abace69ced (block: Add ZEN v2 scheduler)
 }
 
 static void __exit zen_exit(void)
@@ -274,4 +333,8 @@ module_exit(zen_exit);
 MODULE_AUTHOR("Brandon Berhent");
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Zen IO scheduler");
+<<<<<<< HEAD
 MODULE_VERSION("1.0");
+=======
+MODULE_VERSION("1.1");
+>>>>>>> 46abace69ced (block: Add ZEN v2 scheduler)
