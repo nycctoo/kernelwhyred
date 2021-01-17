@@ -27,7 +27,7 @@ do
 	build ${i} -newcam
 done
 
-send_msg "Building OC version..."
+send_msg "Building OC version...."
 
 git apply oc.patch
 
