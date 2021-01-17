@@ -27,9 +27,23 @@ do
 	build ${i} -newcam
 done
 
-send_msg "Building OC version...."
+send_msg "Building OC version..."
 
 git apply oc.patch
+
+for i in ${DEVICES//,/ }
+do
+	if [ $i == "whyred" ] || [ $i == "tulip" ]
+	then
+		build ${i} -oldcam -overclock
+
+		build ${i} -newcam -overclock
+	fi
+done
+
+send_msg "Building Little OC version..."
+
+git apply little.patch
 
 for i in ${DEVICES//,/ }
 do
