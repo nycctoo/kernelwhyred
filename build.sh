@@ -49,9 +49,9 @@ for i in ${DEVICES//,/ }
 do
 	if [ $i == "whyred" ] || [ $i == "tulip" ]
 	then
-		build ${i} -oldcam -overclock
+		build ${i} -oldcam -littleoverclock
 
-		build ${i} -newcam -overclock
+		build ${i} -newcam -littleoverclock
 	fi
 done
 
