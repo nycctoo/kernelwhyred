@@ -1,9 +1,0 @@
-version: 2.1
-jobs:
-  build:
-    docker:
-      - image: okta10/docker:latest
-    steps:
-      - run: git clone https://github.com/prooholic/kernelwhyred.git --depth=1 -b ProoholicKranul-4.4
-      - run: wget https://raw.githubusercontent.com/okta-10/scripts/master/ci/build-whyred.sh
-      - run: bash build-whyred.sh
