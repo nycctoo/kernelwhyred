@@ -1,10 +1,10 @@
 #!/bin/bash
 
-export KERNELNAME="Prooholic-Kranul"
+export KERNELNAME="issac"
 
-export LOCALVERSION=3.0.0.1
+export LOCALVERSION=1.0
 
-export KBUILD_BUILD_USER=Peter
+export KBUILD_BUILD_USER=issacc
 
 export KBUILD_BUILD_HOST=DroneCI
 
