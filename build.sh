@@ -2,7 +2,7 @@
 
 export KERNELNAME="Prooholic-Kranul"
 
-export LOCALVERSION=-3.0
+export LOCALVERSION=3.0.0.1
 
 export KBUILD_BUILD_USER=Peter
 
