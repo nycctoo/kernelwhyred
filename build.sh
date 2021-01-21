@@ -1,9 +1,9 @@
 #!/bin/bash
 
-export KERNELNAME="issac"
+export KERNELNAME="issac kernel"
 
 <<<<<<< HEAD
-export LOCALVERSION=1.0
+export LOCALVERSION=1.1
 =======
 export LOCALVERSION=3.1-Nightly
 >>>>>>> 0486d0fb0468728385ea1ecb3bb8f45a17cd8f4b
