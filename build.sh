@@ -1,10 +1,10 @@
 #!/bin/bash
 
-export KERNELNAME="issac kernel"
+export KERNELNAME="dannn-kernel"
 
-export LOCALVERSION=1.1-test
+export LOCALVERSION=1.0
 
-export KBUILD_BUILD_USER=issacc
+export KBUILD_BUILD_USER=dannn
 
 export KBUILD_BUILD_HOST=DroneCI
 
