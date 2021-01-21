@@ -2,7 +2,7 @@
 
 export KERNELNAME="issac kernel"
 
-export LOCALVERSION=1.2-test
+export LOCALVERSION=1.1-test
 
 export KBUILD_BUILD_USER=issacc
 
