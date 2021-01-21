@@ -4,8 +4,6 @@ export KERNELNAME="issac kernel"
 
 export LOCALVERSION=1.2-test
 
-0486d0fb0468728385ea1ecb3bb8f45a17cd8f4b
-
 export KBUILD_BUILD_USER=issacc
 
 export KBUILD_BUILD_HOST=DroneCI
