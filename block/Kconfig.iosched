@@ -86,6 +86,13 @@ config IOSCHED_ANXIETY
 	  and batching synchronous requests, process initialization is
 	  expedited.
 
+config IOSCHED_ZEN
+	tristate "Zen I/O scheduler"
+	default y
+	---help---
+	  FCFS, dispatches are back-inserted, deadlines ensure fairness.
+	  Should work best with devices where there is no travel delay.
+
 choice
 	prompt "Default I/O scheduler"
 	help
@@ -114,8 +121,8 @@ choice
 	config DEFAULT_NOOP
 		bool "No-op"
 
-	config DEFAULT_MAPLE
-		bool "Maple" if IOSCHED_MAPLE=y
+	config DEFAULT_ZEN
+		bool "ZEN" if IOSCHED_ZEN=y
 
 endchoice
 
@@ -126,7 +133,7 @@ config DEFAULT_IOSCHED
 	default "bfq" if DEFAULT_BFQ
 	default "anxiety" if DEFAULT_ANXIETY
 	default "noop" if DEFAULT_NOOP
-	default "maple" if DEFAULT_MAPLE
+	default "zen" if DEFAULT_ZEN
 
 endmenu
 
